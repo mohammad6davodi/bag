@@ -1,0 +1,51 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="~/img/logo-color.png">
+    <title>سرگرمی</title>
+</head>
+<body style="margin: 0; background-color: #152238">
+    <div class="bb">
+        <a href="~/Content/Place"><button>برگشت</button></a><br />
+    </div>
+    <div class="game" style="margin: 1rem auto 0; width: 600px">
+        <h3 id="score" style="font-family: Arial, Helvetica, sans-serif; color: #ffffff">You have 0 points.</h3>
+        <h3 id="time" style="font-family: Arial, Helvetica, sans-serif; color: #ffffff">Time: 0.0s</h3>
+        <canvas id="snakeGame" width="600" height="600"></canvas>
+    </div>
+    <style>
+        .bb {
+    text-align: left;
+}
+
+    .bb a {
+        text-decoration: none;
+    }
+
+    .bb button {
+        border-radius: 20px;
+        border-bottom: solid;
+        color: white;
+        background-color: blue;
+        border-color: blue;
+        padding: 6px;
+        margin: 6px;
+        width: 10%;
+    }
+
+        .bb button:hover {
+            font-size: 160%;
+            transition: 1.6s;
+            background-color: blue;
+            border-color: blue;
+        }
+    </style>
+    <script src="~/Scripts/j.js"></script>
+</body>
+</html>

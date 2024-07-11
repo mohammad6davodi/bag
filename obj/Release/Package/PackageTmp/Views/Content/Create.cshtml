@@ -1,0 +1,132 @@
+﻿@model UploadAndDisplayImageInMvc.ViewModel.ContentViewModel
+@{
+    ViewBag.Title = "افزودن مکان";
+}
+
+<script src="~/ckeditor/ckeditor.js"></script>
+<script src="~/ckeditor/adapters/jquery.js"></script>
+
+
+<script type="text/javascript">
+    function fileCheck(obj) {
+        var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+        if ($.inArray($(obj).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+            alert("Only '.jpeg','.jpg', '.png', '.gif', '.bmp' formats are allowed.");
+        }
+    }
+</script>
+<link href="~/Content/Place.css" rel="stylesheet" type="text/css" />
+<br /><br /><br />
+@using (Html.BeginForm("Create", "Content", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+        <div class="in">
+            <div class="form-group">
+                <labal>عکس</labal>
+                <div class="col-md-10">
+                    <br />
+                    <input type="file" name="ImageData" id="ImageData" onchange="fileCheck(this);" />
+                    @Html.ValidationMessageFor(model => model.Image)<br />
+                </div>
+            </div><br />
+
+            <div class="form-group">
+                <labal>سر تیتر</labal>
+                <div class="col-md-10">
+                    <br />
+                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control", placeholder = "برای مثال : تخته جمشید" })
+                    @Html.ValidationMessageFor(model => model.Title)<br />
+                </div>
+            </div><br />
+            <div class="lk">
+                <div class="form-group">
+                    <labal>توضیحات</labal>
+                    <div class="col-md-10">
+                        <br />
+                        @Html.TextAreaFor(model => model.Description, new { @class = "ckeditor", placeholder = "Content" })
+                        @Html.ValidationMessageFor(model => model.Description)<br />
+                    </div>
+                </div>
+            </div><br />
+
+            <div class="form-group">
+                <labal> سه بعدی</labal>
+                <div class="col-md-10">
+                    <br />
+                    @Html.TextBoxFor(model => model.Link1, new { @class = "form-control", placeholder = "لطفا لینک را وارد کنید" })
+                    @Html.ValidationMessageFor(model => model.Link1)<br />
+                </div>
+            </div><br /><br />
+            <div class="il">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="ثبت" class="btn btn-default" style="font-size:20px;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    body {
+        background-image: url(../../../../img/adds.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+
+    .in {
+        text-align: center;
+        padding: 6px;
+        margin: 6px;
+        margin-left: 100px;
+        border-style: solid;
+        border-radius: 20px;
+        border-color: white;
+        color: white;
+        width: 80%;
+        box-shadow: 0 4px 8px 0 white, 0 6px 20px 0 white;
+    }
+
+        .in input {
+            width: 60%;
+            background: none;
+            border-top: none;
+            border-right: none;
+            border-left: none;
+            border-bottom-color: powderblue;
+            color: white;
+            text-align: center;
+        }
+
+    .bb {
+        text-align: left;
+    }
+
+        .bb a {
+            text-decoration: none;
+        }
+
+        .bb button {
+            border-radius: 20px;
+            border-bottom: solid;
+            color: white;
+            background-color: blue;
+            border-color: blue;
+            padding: 6px;
+            margin: 6px;
+            width: 10%;
+        }
+
+            .bb button:hover {
+                font-size: 160%;
+                transition: 1s;
+                background-color: blue;
+                border-color: blue;
+                box-shadow: 0 4px 8px 0 blue, 0 6px 20px 0 blue;
+            }
+</style>

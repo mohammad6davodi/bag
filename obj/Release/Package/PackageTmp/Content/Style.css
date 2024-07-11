@@ -1,0 +1,94 @@
+﻿ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: none;
+}
+
+li {
+    float: right;
+}
+
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        background-color: none;
+    }
+
+        li a:hover {
+            background-color: powderblue;
+            font-size: 160%;
+            transition: 1.6s;
+            color: white;
+        }
+
+.bt {
+    text-align: center;
+}
+
+    .bt button {
+        border-radius: 10px;
+        border-bottom: solid;
+        background: none;
+        font-size: 160%;
+        padding: 6px;
+        margin: 6px;
+        width: 20%;
+        height: 20%;
+    }
+
+    .bt a {
+        text-decoration: none;
+    }
+
+    .bt :hover:not(.active) {
+        background-color: pink;
+        border-color: pink;
+        color: white;
+        transition: 1s;
+        font-size: 160%;
+        width: 26%;
+    }
+
+    .bt a:hover:not(.active) {
+        background: none;
+        transition: 1s;
+    }
+
+.bb {
+    text-align: left;
+}
+
+    .bb a {
+        text-decoration: none;
+    }
+
+    .bb button {
+        border-radius: 20px;
+        border-bottom: solid;
+        color: white;
+        background-color: blue;
+        border-color: blue;
+        padding: 6px;
+        margin: 6px;
+        width: 10%;
+    }
+
+        .bb button:hover {
+            font-size: 160%;
+            transition: 1s;
+            background-color: blue;
+            border-color: blue;
+            box-shadow: 0 4px 8px 0 blue, 0 6px 20px 0 blue;
+        }
+
+        .bb button:hover {
+            font-size: 160%;
+            transition: 1.6s;
+            background-color: blue;
+            border-color: blue;
+        }

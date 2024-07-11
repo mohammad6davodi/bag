@@ -1,0 +1,89 @@
+﻿@model IEnumerable<UploadAndDisplayImageInMvc.ViewModel.ContentViewModel>
+@{
+    ViewBag.Title = "ویرایش مکان";
+}
+<div class="bb">
+    <a href="~/Home/ControlPanel"><button>برگشت</button></a><br />
+</div>
+<link href="~/Content/st.css" rel="stylesheet" type="text/css" />
+<div class="by">
+    <form method="get" action="~/Content/Index">
+        <tr>
+
+            <th>
+                <input type="text" class="form-control" name="search" value="@(ViewBag.search)" />
+            </th>
+            <th>
+
+                <input type="submit" value="جستجو" class="btn btn-success btn-block" style="width:20%; background-color:green; border-color:green;"/>
+            </th>
+        </tr>
+    </form>
+</div>
+<table class="table" style="width: 1200px;">
+    <tr>
+        <th>
+            <b>ID</b>
+        </th>
+        <th>
+            <b>عکس</b>
+        </th>
+        <th>
+            <b>سر تیتر</b>
+        </th>
+        <th>
+            <b>توضیحات</b>
+        </th>
+        <th>
+            <b>سه بعدی</b>
+        </th>
+        <th>
+            <b>عملیات</b>
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <p><b>@item.ID</b></p>
+            </td>
+            <td>
+                <img src="/Content/RetrieveImage/@item.ID" style="height:100px; width:100px;" />
+            </td>
+            <td>
+                @item.Title
+            </td>
+            <td style="width: 500px;">
+                @Html.Raw(item.Description)
+            </td>
+            <td style="width: 500px;">
+                <button class="btn btn-danger" style="background-color:orange; border-color:orange; font-size:20px;"><a href="@item.Link1" style="color:white; text-decoration:none;">سه بعدی</a></button>
+            </td>
+            <td>
+                <button style="background-color:powderblue; border-color:powderblue; font-size:16px;"><a href="~/Content/Details/@item.ID" style="text-decoration:none; color:white;">جزئیات</a></button><br />
+                <button style="background-color:red; border-color:red; font-size:16px;"><a class="btn btn-danger btn-sm" href="~/Content/Delete/@item.ID" style="text-decoration:none; color:white;">حذف</a></button><br />
+            </td>
+        </tr>
+    }
+</table>
+<style>
+    .by {
+        text-align: center;
+        border: 1px solid #4c5a65;
+        padding: 10px;
+        margin: 10px;
+        background-color: #4c5a65;
+        width: 60%;
+        margin-left: 20%;
+    }
+
+        .by input {
+            background-color: orange;
+            border-color: orange;
+            color: white;
+            width: 60%;
+            border-radius: 20px;
+            font-size: 160%;
+        }
+</style>

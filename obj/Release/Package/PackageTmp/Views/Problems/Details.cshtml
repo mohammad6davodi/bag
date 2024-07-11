@@ -1,0 +1,39 @@
+﻿@model UploadAndDisplayImageInMvc.Models.Problem
+
+@{
+    ViewBag.Title = "حل مشکلات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}<br /><br /><br /><br />
+<div class="oi">
+    <h2 style="color:white;">@Model.FullName</h2>
+    <h3 style="color:white;">@Model.Email</h3>
+    <h3 style="color:white;">@Model.PhoneNumber</h3>
+    <p style="color:white;">@Model.Paragraph</p>
+    <button style="background-color:green; border-color:green; font-size:26px;"><a href="~/Problems/Index">برگشت</a></button>
+</div>
+<style>
+    body {
+        background-image: url(../../img/city.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+    .oi {
+        text-align: center;
+        border-style: solid;
+        border-radius: 26px;
+        border-color: blue;
+        backdrop-filter: blur(10px);
+        width:80%;
+        margin-left:100px;
+    }
+    button {
+        border-radius: 10px;
+        width:40%;
+    }
+
+    a {
+        text-decoration: none;
+        color: white;
+    }
+</style>

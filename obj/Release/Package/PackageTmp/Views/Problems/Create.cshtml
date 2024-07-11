@@ -1,0 +1,106 @@
+﻿@model UploadAndDisplayImageInMvc.Models.Problem
+
+@{
+    ViewBag.Title = "ارسال مشکلات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="oi" style="color:white;">
+    <h1>لطفا اگر مشکلی در سایت وجود دارد به ما بگویید</h1>
+    <h2>راه های ارتباطی</h2>
+    <h3>شماره تلفن : 09371427931</h3>
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="oi">
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true)
+            <div class="form-group">
+                @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-md-2" })<br /><br />
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.FullName)
+                    @Html.ValidationMessageFor(model => model.FullName)
+                </div>
+            </div><br />
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })<br /><br />
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Email)
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+            </div><br />
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })<br /><br />
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PhoneNumber)
+                    @Html.ValidationMessageFor(model => model.PhoneNumber)
+                </div>
+            </div><br />
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Paragraph, htmlAttributes: new { @class = "control-label col-md-2" })<br /><br />
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Paragraph)
+                    @Html.ValidationMessageFor(model => model.Paragraph)
+                </div>
+            </div><br />
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="ارسال" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<style>
+    body {
+        background-image: url(../../img/night.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+
+    .oi label {
+        color: white
+    }
+
+    .oi {
+        text-align: center;
+        border-style: solid;
+        border-radius: 26px;
+        border-color: blue;
+        padding: 10%;
+        margin: 10%;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 8px 0 blue, 0 6px 20px 0 blue;
+    }
+
+        .oi input {
+            background: none;
+            width: 60%;
+            height: 20px;
+            border-bottom-color: pink;
+            border-top: none;
+            border-right: none;
+            border-left: none;
+            background-color: none;
+            color:white;
+        }
+
+            .oi input:hover {
+                border-bottom-color: pink;
+                border-top: none;
+                border-right: none;
+                border-left: none;
+                background-color: none;
+                width: 80%;
+                transition: 1.6s;
+            }
+</style>
