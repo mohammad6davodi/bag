@@ -1,33 +1,28 @@
 <!DOCTYPE html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Game</title>
-    <ul>
-      <li><a href="Index.html">صفحه اصلی</a></li>
-      <li><a href="Login.html">کنترل پنل</a></li>
-      <li style="float: left;"><a href="About us.html">درباره ما</a></li>
-      <li style="float: left;"><a href="Game.html">سرگرمی</a></li>
-  </ul>
-    <style>
-       body{
-        background-color:powderblue;
-        }
-        .game-box {
-            text-align:center;   
-        }
-        .game-info {
-            text-align:center; 
-            font-family:arial;
-            line-height:24px;
-        }
-ul{
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Game</title>
+  <ul>
+    <li><a href="Index.html">صفحه اصلی</a></li>
+    <li><a href="Login.html">کنترل پنل</a></li>
+    <li style="float: left;"><a href="About us.html">درباره ما</a></li>
+    <li style="float: left;"><a href="Game.html">سرگرمی</a></li>
+</ul>
+</head>
+<body style="margin: 0; background-color: #222222">
+<div class="game" style="margin: 1rem auto 0; width: 600px">
+  <h3 id="score" style="font-family: Arial, Helvetica, sans-serif; color: #ffffff">از کلید های جهتی استفاده کنید</h3>
+  <h3 id="time" style="font-family: Arial, Helvetica, sans-serif; color: #ffffff">Time: 0.0s</h3>
+  <canvas id="snakeGame" width="600" height="600"></canvas>
+</div>
+<style>
+          ul{
             list-style-type: none;
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background: none
+            background: none;
         }
         li{
             float: right;
@@ -44,174 +39,210 @@ ul{
             transition: 1s;
             font-size: 160%;
         }
-    </style>
-  </head>
-  <body>
-    <div class="game-box"><canvas id="canvas" width="400" height="400"></canvas></div>
-    <div class="game-info">
-        <h2>Snake Game</h2>
-        <p id="game-status"></p>
-        <p id="game-score"></p>
-    </div>
+</style>
+<script>
+    const arraysMatch = function (arr1, arr2) {
+        if (arr1.length !== arr2.length) return false;
 
-    <script>
-      var canvas, ctx, gameControl, gameActive;
-      // render X times per second
-      var x = 8;
-      
-      const CANVAS_BORDER_COLOUR = 'black';
-      const CANVAS_BACKGROUND_COLOUR = "white";
-      const SNAKE_COLOUR = 'lightgreen';
-      const SNAKE_BORDER_COLOUR = 'darkgreen';
-
-
-      window.onload = function() {
-        canvas = document.getElementById("canvas");
-        ctx = canvas.getContext("2d");
-
-        document.addEventListener("keydown", keyDownEvent);
-
-        gameControl = startGame(x);
-      };
-      
-      /* function to start the game */
-      function startGame(x) {
-          // setting gameActive flag to true
-          gameActive = true;
-          document.getElementById("game-status").innerHTML = "<small>بازی شروع شد</small>";
-          document.getElementById("game-score").innerHTML = "";
-          return setInterval(draw, 1000 / x);
-      }
-      
-      function pauseGame() {
-          // setting gameActive flag to false
-          clearInterval(gameControl);
-          gameActive = false;
-          document.getElementById("game-status").innerHTML = "<small>Game Paused</small>";
-      }
-      
-      function endGame(x) {
-          // setting gameActive flag to false
-          clearInterval(gameControl);
-          gameActive = false;
-          document.getElementById("game-status").innerHTML = "<small>شما باختید-فشار دهید spase</small>";
-          document.getElementById("game-score").innerHTML = "<h1>Score: " + x + "</h1>";
-      }
-
-      // game world
-      var gridSize = (tileSize = 20); // 20 x 20 = 400
-      var nextX = (nextY = 0);
-
-      // snake
-      var defaultTailSize = 3;
-      var tailSize = defaultTailSize;
-      var snakeTrail = [];
-      var snakeX = (snakeY = 10);
-
-      // apple
-      var appleX = (appleY = 15);
-
-      // draw
-      function draw() {
-        // move snake in next pos
-        snakeX += nextX;
-        snakeY += nextY;
-
-        // snake over game world?
-        if (snakeX < 0) {
-          snakeX = gridSize - 1;
-        }
-        if (snakeX > gridSize - 1) {
-          snakeX = 0;
+        for (let i = 0; i < arr1.length; i++) {
+            if (arr1[i] !== arr2[i]) return false;
         }
 
-        if (snakeY < 0) {
-          snakeY = gridSize - 1;
+        return true;
+    };
+
+    class SnakeGame {
+        constructor(x, y, cs, canvas) {
+            // Direction (first arg is x movement, second is y movement: [-1, 0] means 'left', [0, 1] would mean 'down', I hope you get it)
+            this.direction = [0, 0];
+            // Default states
+            this.launched = false;
+            this.hasStarted = false;
+            // Frames/s
+            this.timer = 1e3 / (cs / 2);
+            // Running time (for the HTML timer)
+            this.runningTime = 0;
+
+            // if there is no context (how would this happen? idk...)
+            if (!canvas.getContext('2d')) throw 'nope';
+
+            // Canvas context
+            this.ctx = canvas.getContext('2d');
+
+            // Block Size (px)
+            this.cs = cs;
+            // Amount of blocks in x coordinates
+            this.xC = (x - (x % cs)) / cs;
+            // Amount of blocks in y coordinates
+            this.yC = (y - (y % cs)) / cs;
+
+            // An apple
+            this.apple = [Math.floor(Math.random() * this.xC), Math.floor(Math.random() * this.yC)];
+
+            // The snake (nvm the usage of unknown class lmao)
+            this.snake = new (class {
+                constructor(x0, y0) {
+                    this.pos = [[x0, y0], [x0 + 1, y0], [x0 + 2, y0]];
+                }
+            })((this.xC - (this.xC % 2)) / 2 - 1, (this.yC - (this.yC % 2)) / 2 - 1);
         }
-        if (snakeY > gridSize - 1) {
-          snakeY = 0;
+
+        // The game start method
+        async start() {
+            // Sey that the game has been started
+            this.launched = true;
+
+            // Initialize keys and background
+            this.init()
+
+            // Auto-Restart
+            while (1) {
+                // While the game still runs
+                while (this.launched) {
+                    // Wait for the next frame
+                    await this.wait(this.timer);
+                    // Run the frame handler
+                    this.run();
+                }
+            }
         }
 
-        //snake bite apple?
-        if (snakeX == appleX && snakeY == appleY) {
-          tailSize++;
+        init() {
+            // Background rect
+            this.ctx.fillStyle = '#222222';
+            this.ctx.fillRect(0, 0, 600, 600);
 
-          appleX = Math.floor(Math.random() * gridSize);
-          appleY = Math.floor(Math.random() * gridSize);
+            // Every time a key is down
+            addEventListener('keydown', function (e) {
+                // The movements (ordered so I can do some maths c:)
+                const moves = ['ArrowUp', 'ArrowLeft', 'ArrowDown', 'ArrowRight'];
+
+                // if the key pressed is a valid move key
+                if (moves.includes(e.key)) {
+                    // The move index
+                    const move = moves.indexOf(e.key);
+
+                    if (move % 2 === 0) {
+                        // Movement: up or down
+                        if (game.direction[0] !== 0 || !game.hasStarted) {
+                            // Change the y direction
+                            game.direction[1] = move === 0 ? -1 : 1;
+                            game.direction[0] = 0;
+                            // Set game to started if it is not
+                            if (!game.hasStarted) game.hasStarted = true;
+                        }
+                    } else if (move % 2 === 1) {
+                        // Movement: left or right
+                        if (game.direction[1] !== 0 || !game.hasStarted) {
+                            // Change the x direction
+                            game.direction[0] = move === 1 ? -1 : 1;
+                            game.direction[1] = 0;
+                            // Set game to started if it is not
+                            if (!game.hasStarted) game.hasStarted = true;
+                        }
+                    }
+                }
+            });
         }
 
-        //  Select the colour to fill the canvas
-      ctx.fillStyle = CANVAS_BACKGROUND_COLOUR;
-      //  Select the colour for the border of the canvas
-      ctx.strokestyle = CANVAS_BORDER_COLOUR;
+        // Method that run on each frame
+        run() {
+            if (this.hasStarted) {
+                // Move handler
+                const positions = this.snake.pos.splice(0, this.snake.pos.length - 1);
+                this.snake.pos = [positions[0].map((p, i) => p += this.direction[i]), ...positions];
 
-      // Draw a "filled" rectangle to cover the entire canvas
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      // Draw a "border" around the entire canvas
-      ctx.strokeRect(0, 0, canvas.width, canvas.height);
+                if (arraysMatch(this.snake.pos[0], this.apple)) {
+                    // Apple Eaten?
+                    this.snake.pos.push(this.apple);
+                    this.apple = [Math.floor(Math.random() * this.xC), Math.floor(Math.random() * this.yC)];
+                } else if (Array.from(this.snake.pos).splice(1, this.snake.pos.length).map(p => arraysMatch(p, this.snake.pos[0])).includes(true)) {
+                    // Self hit?
+                    alert(`You lose! Your total score was ${this.snake.pos.length - 3}!`);
+                    this.hasStarted = false;
+                    this.reset();
+                }
 
-        // paint snake
-        ctx.fillStyle = SNAKE_COLOUR;
-        ctx.strokestyle = SNAKE_BORDER_COLOUR;
-        for (var i = 0; i < snakeTrail.length; i++) {
-          ctx.fillRect(
-            snakeTrail[i].x * tileSize,
-            snakeTrail[i].y * tileSize,
-            tileSize,
-            tileSize
-          );
+                if (this.snake.pos[0].map((p, i) => i === 0 ? p < 0 || p > this.xC - 1 : p < 0 || p > this.yC - 1).includes(true)) {
+                    // Wall hit?
+                    alert(`You lose! Your total score was ${this.snake.pos.length - 3}!`);
+                    this.hasStarted = false;
+                    this.reset();
+                }
+
+                // Update game running time
+                this.runningTime += this.timer;
+
+                // Change HTML texts
+                document.getElementById('score').innerHTML = `You have ${this.snake.pos.length - 3} points.`;
+                document.getElementById('time').innerHTML = `Time: ${(this.runningTime / 1e3).toFixed(1)}s`;
+            }
+
+            // Draw the canvas
+            return this.draw();
+        }
+
+        draw() {
+            // Some constant info
+            const { ctx, cs } = this;
+
+            // For each block in the x line
+            for (let xC = 0; xC < this.xC; xC++) {
+                // For each block in the y line
+                for (let yC = 0; yC < this.yC; yC++) {
+                    // Location of the block
+                    const pos = [xC, yC];
+                    // Block draw offset
+                    const offset = 3;
+
+                    if (this.snake.pos.map(p => arraysMatch(p, pos)).includes(true)) {
+                        // If the current block is a part of the snake
+                        if (this.snake.pos.map(p => arraysMatch(p, pos)).indexOf(true) !== 0) ctx.fillStyle = '#41ff41';
+                        else ctx.fillStyle = '#ffaa41';
+                        ctx.fillRect(xC * cs + offset, yC * cs + offset, cs - 2 * offset, cs - 2 * offset);
+                    } else if (arraysMatch(this.apple, pos)) {
+                        // If the current block is an apple
+                        ctx.fillStyle = '#ff4141';
+                        ctx.fillRect(xC * cs + offset, yC * cs + offset, cs - 2 * offset, cs - 2 * offset);
+                    } else {
+                        // If the current block is nothing special
+                        ctx.fillStyle = '#333333';
+                        ctx.fillRect(xC * cs + offset, yC * cs + offset, cs - 2 * offset, cs - 2 * offset);
+                    }
+                }
+            }
+        }
+
+        // Method to use rather than using intervals, very useful btw
+        async wait(t) {
+            return new Promise(resolve => setTimeout(() => resolve(), t));
+        }
+
+        // Method used to reset the whole game
+        reset() {
+            this.apple = [Math.floor(Math.random() * this.xC), Math.floor(Math.random() * this.yC)];
+
+            this.snake = new (class {
+                constructor(x0, y0) {
+                    this.pos = [[x0, y0], [x0 + 1, y0], [x0 + 2, y0]];
+                }
+            })((this.xC - (this.xC % 2)) / 2 - 1, (this.yC - (this.yC % 2)) / 2 - 1);
           
-          ctx.strokeRect(snakeTrail[i].x * tileSize , snakeTrail[i].y* tileSize, tileSize, tileSize);
-
-          //snake bites it's tail?
-          if (snakeTrail[i].x == snakeX && snakeTrail[i].y == snakeY) {
-            if(tailSize > 3) {
-                endGame(tailSize);
-            }
-            tailSize = defaultTailSize;  
-          }
+            // Reset game time
+            this.runningTime = 0;
+          
+            // Set score text
+            document.getElementById('score').innerHTML = `You have 0 points.`;
+            // Set start text
+            document.getElementById('time').innerHTML = `Press any arrow key to start moving!`;
         }
+    }
 
-        // paint apple
-        ctx.fillStyle = "red";
-        ctx.fillRect(appleX * tileSize, appleY * tileSize, tileSize, tileSize);
+    // Create the game instance
+    const game = new SnakeGame(600, 600, 20, document.getElementById('snakeGame'));
 
-        //set snake trail
-        snakeTrail.push({ x: snakeX, y: snakeY });
-        while (snakeTrail.length > tailSize) {
-          snakeTrail.shift();
-        }
-      }
-
-      // input
-      function keyDownEvent(e) {
-        switch (e.keyCode) {
-          case 37:
-            nextX = -1;
-            nextY = 0;
-            break;
-          case 38:
-            nextX = 0;
-            nextY = -1;
-            break;
-          case 39:
-            nextX = 1;
-            nextY = 0;
-            break;
-          case 40:
-            nextX = 0;
-            nextY = 1;
-            break;
-          case 32:
-            if(gameActive == true) {
-                pauseGame();
-            }
-            else {
-                gameControl = startGame(x);
-            }
-            break;
-        }
-      }
-    </script>
-  </body>
+    // Start the game
+    game.start();
+</script>
+</body>
 </html>
