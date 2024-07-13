@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <ul>
+        <li><a href="Index.html">صفحه اصلی</a></li>
+        <li><a href="Login.html">کنترل پنل</a></li>
+        <li style="float: left;"><a href="About us.html">درباره ما</a></li>
+        <li style="float: left;"><a href="Game.html">سرگرمی</a></li>
+    </ul>
+</head>
+<body><br>
+    <div class="bt">
+        <img src="img/Game1.jpg" style="width: 90%; height: 40%;">
+    </div><br>
+    <div class="fg"></div><br>
+    <div class="se">
+    <form>
+        <input type="search">
+        <input type="submit" value="سرچ" style="cursor: pointer;">
+    </form>
+    </div>
+    <div class="card">
+        <img src="img/gta v.png" style="width:300px; height: 300px; border-radius: 20px;">
+        <h1><b>GTA V</b></h1>
+        <h1><b>دسته بندی :اکشن</b></h1>
+        <h1><b>پلتفریم:کامیپوتر</b></h1>
+        <a><button>ادامه مطلب</button></a>
+    </div>
+    <div class="card">
+        <img src="img/Ninja.jpg" style="width:300px; height: 300px; border-radius: 20px;">
+        <h1><b>لاک پشت های نینجا</b></h1>
+        <h1><b>دسته بندی :اکشن</b></h1>
+        <h1><b>پلتفریم:کامیپوتر</b></h1>
+        <a><button>ادامه مطلب</button></a>
+    </div>
+    <div class="card">
+        <img src="img/Subway surfer.jpg" style="width:300px; height: 300px; border-radius: 20px;">
+        <h1><b>Subway surfer</b></h1>
+        <h1><b>دسته بندی :سرگرمی</b></h1>
+        <h1><b>پلتفریم:اندروید</b></h1>
+        <a href="continue.html"><button>ادامه مطلب</button></a>
+    </div>
+    <style>
+        body{
+            background-color: rgb(0, 0, 0);
+        }
+        ul{
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+        li{
+            float: right;
+        }
+        li a{
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        li :hover{
+            background-color:  green;
+            transition: 1s;
+            font-size: 160%;
+        }
+        .bt img{
+            text-align: center;
+            margin-left: 6%;
+            border-radius: 26px;
+        }
+        .fg{
+            border: 1px solid rgb(255, 255, 255);
+            background-color: rgb(255, 255, 255);
+            width: 99%;
+            padding: 6px;
+        }
+        .card{
+            padding: 6px;
+            margin: 6px;
+            margin-left: 1%;
+            border: 1px solid white;
+            float:left;
+            text-align: center;
+            color: white;
+            border-radius: 20px;
+        }
+        .card button{
+            background-color: green;
+            border-color: green;
+            color: white;
+            font-size: 160%;
+            border-radius: 10px;
+            width: 60%;
+            box-shadow: 1px 1px 2px black,0 0 25px green, 0 0 5px green;
+            cursor: pointer;
+        }
+        .card h1{
+            text-shadow: 1px 1px 2px black,0 0 25px white, 0 0 5px white;
+        }
+        .card a :hover{
+            background-color: powderblue;
+            border-color: powderblue;
+            box-shadow: 1px 1px 2px black,0 0 25px powderblue, 0 0 5px powderblue;
+            color: black;
+            transition: 1s;
+        }
+        .se{
+            border-color: rgb(39, 37, 37);
+            background-color: rgb(39, 37, 37);
+            padding:6px;
+            margin: 6px;
+            text-align: center;
+            width: 29%;
+            margin-left: 35%;
+        }
+        .se input{
+            font-size: 160%;
+            border-color: rgb(39, 37, 37);
+            background-color: rgb(39, 37, 37);
+            border-radius: 20px;
+            color: white;
+        }
+        @media (max-width: 768px) {
+        .se{
+        width: 60%;
+        margin-left: 20%;
+        }
+        .se input{
+            width: 80%;
+        }
+        .card{
+            margin: 9%;
+        }
+        }
+        @media (min-width: 769px) {
+        .se{
+        width: 70%;
+        margin-left: 15%;
+        }
+        }
+    </style>
+</body>
+</html>

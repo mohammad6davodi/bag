@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <ul>
+        <li><a href="Index.html">صفحه اصلی</a></li>
+        <li><a href="Login.html">کنترل پنل</a></li>
+        <li style="float: left;"><a href="About us.html">درباره ما</a></li>
+        <li style="float: left;"><a href="Game.html">سرگرمی</a></li>
+    </ul>
+</head>
+<body>
+    <div class="in">
+    <form>
+        <label>عکس</label><br><br>
+        <input type="file"><br><br>
+        <label>توضیحات</label><br><br>
+        <textarea></textarea><br><br>
+        <label>راهنما</label><br><br>
+        <textarea></textarea><br><br>
+        <label>دانلود کامپیوتر</label><br><br>
+        <input type="file"><br><br>
+        <label>دانلود اندروید</label><br><br>
+        <input type="file"><br><br>
+        <input type="submit" value="افزودن" style="background-color: blue; border-color:blue; width: 30%; font-size: 160%; color: white; cursor: pointer; box-shadow: 1px 1px 2px blue,0 0 25px blue, 0 0 5px blue;">
+    </form>
+    </div>
+    <style>
+        body{
+         background-image:url(img/adds.jpg);
+         background-size:cover;
+         background-repeat: no-repeat;
+         background-attachment: fixed;
+         }
+        .in{
+            text-align: center;
+            padding: 6px;
+            margin: 6px;
+            width: auto;
+        }
+        label{
+            font-size: 110%;
+            width: auto;
+            color:white;
+        }
+        textarea{
+            border-radius: 20px;
+            border-color: rgb(255, 0, 221);
+            box-shadow: 1px 1px 2px rgb(255, 0, 221),0 0 25px rgb(255, 0, 221), 0 0 5px rgb(255, 0, 221);
+            background:none ;
+            text-align: center;
+            direction: rtl;
+            color:white;
+            width: 600px;
+            height: 200px;
+        }
+        input{
+            border-radius: 18px;
+            border-color: rgb(255, 0, 221);
+            box-shadow: 1px 1px 2px rgb(255, 0, 221),0 0 25px rgb(255, 0, 221), 0 0 5px rgb(255, 0, 221);
+            font-size: 110%;
+            width: 40%;
+            background:none ;
+            text-align: center;
+            cursor: pointer;
+            width: auto;
+            color:white;
+        }
+        ul{
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background:none;
+        }
+        li{
+            float: right;
+        }
+        li a{
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        li :hover{
+            background-color:  green;
+            transition: 1s;
+            color: white;
+            font-size: 160%;
+        }
+        @media (max-width: 768px) {
+            textarea{
+            width: 300px; 
+            height: 100px;
+        }
+        }
+    </style>
+</body>
+</html>
